@@ -1,0 +1,42 @@
+{
+  "stringTable": {
+    "0": "D:/android-project/UpgradeBadge/app/.cxx/cmake/release/x86_64",
+    "1": "--target=x86_64-none-linux-android23 --gcc-toolchain=D:/sdk/ndk/21.0.6113669/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/sdk/ndk/21.0.6113669/toolchains/llvm/prebuilt/windows-x86_64/sysroot -DnlsEM2037upgrade_EXPORTS -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security -O2 -DNDEBUG -fPIC"
+  },
+  "buildFiles": [
+    "D:\\sdk\\ndk\\21.0.6113669\\build\\cmake\\platforms.cmake",
+    "D:\\sdk\\ndk\\21.0.6113669\\build\\cmake\\android.toolchain.cmake",
+    "D:\\android-project\\UpgradeBadge\\app\\CMakeLists.txt"
+  ],
+  "cleanCommands": [
+    "D:\\sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe -C \"D:\\android-project\\UpgradeBadge\\app\\.cxx\\cmake\\release\\x86_64\" clean"
+  ],
+  "buildTargetsCommand": "D:\\sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe  -C \"D:\\android-project\\UpgradeBadge\\app\\.cxx\\cmake\\release\\x86_64\" {LIST_OF_TARGETS_TO_BUILD}",
+  "libraries": {
+    "nlsEM2037upgrade-Release-x86_64": {
+      "buildCommand": "D:\\sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe -C \"D:\\android-project\\UpgradeBadge\\app\\.cxx\\cmake\\release\\x86_64\" nlsEM2037upgrade",
+      "buildType": "release",
+      "toolchain": "1650824581",
+      "abi": "x86_64",
+      "artifactName": "nlsEM2037upgrade",
+      "files": [
+        {
+          "src": "D:\\android-project\\UpgradeBadge\\app\\src\\main\\cpp\\EM2037Upgrade.c",
+          "flagsOrdinal": 1,
+          "workingDirectoryOrdinal": 0
+        }
+      ],
+      "headers": [],
+      "output": "D:\\android-project\\UpgradeBadge\\app\\build\\intermediates\\cmake\\release\\obj\\x86_64\\libnlsEM2037upgrade.so"
+    }
+  },
+  "toolchains": {
+    "1650824581": {
+      "cCompilerExecutable": "D:\\sdk\\ndk\\21.0.6113669\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang.exe"
+    }
+  },
+  "cFileExtensions": [
+    "c"
+  ],
+  "cppFileExtensions": []
+}

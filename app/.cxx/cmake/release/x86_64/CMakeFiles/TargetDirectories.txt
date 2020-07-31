@@ -1,0 +1,3 @@
+D:/android-project/UpgradeBadge/app/.cxx/cmake/release/x86_64/CMakeFiles/nlsEM2037upgrade.dir
+D:/android-project/UpgradeBadge/app/.cxx/cmake/release/x86_64/CMakeFiles/edit_cache.dir
+D:/android-project/UpgradeBadge/app/.cxx/cmake/release/x86_64/CMakeFiles/rebuild_cache.dir

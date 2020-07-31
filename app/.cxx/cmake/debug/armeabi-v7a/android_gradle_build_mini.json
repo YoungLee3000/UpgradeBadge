@@ -1,0 +1,19 @@
+{
+  "buildFiles": [
+    "D:\\sdk\\ndk\\21.0.6113669\\build\\cmake\\platforms.cmake",
+    "D:\\sdk\\ndk\\21.0.6113669\\build\\cmake\\android.toolchain.cmake",
+    "D:\\android-project\\UpgradeBadge\\app\\CMakeLists.txt"
+  ],
+  "cleanCommands": [
+    "D:\\sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe -C \"D:\\android-project\\UpgradeBadge\\app\\.cxx\\cmake\\debug\\armeabi-v7a\" clean"
+  ],
+  "buildTargetsCommand": "D:\\sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe  -C \"D:\\android-project\\UpgradeBadge\\app\\.cxx\\cmake\\debug\\armeabi-v7a\" {LIST_OF_TARGETS_TO_BUILD}",
+  "libraries": {
+    "nlsEM2037upgrade-Debug-armeabi-v7a": {
+      "artifactName": "nlsEM2037upgrade",
+      "buildCommand": "D:\\sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe -C \"D:\\android-project\\UpgradeBadge\\app\\.cxx\\cmake\\debug\\armeabi-v7a\" nlsEM2037upgrade",
+      "abi": "armeabi-v7a",
+      "output": "D:\\android-project\\UpgradeBadge\\app\\build\\intermediates\\cmake\\debug\\obj\\armeabi-v7a\\libnlsEM2037upgrade.so"
+    }
+  }
+}

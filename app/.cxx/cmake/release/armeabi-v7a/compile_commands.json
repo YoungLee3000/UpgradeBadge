@@ -1,0 +1,7 @@
+[
+{
+  "directory": "D:/android-project/UpgradeBadge/app/.cxx/cmake/release/armeabi-v7a",
+  "command": "D:\\sdk\\ndk\\21.0.6113669\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang.exe --target=armv7-none-linux-androideabi23 --gcc-toolchain=D:/sdk/ndk/21.0.6113669/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/sdk/ndk/21.0.6113669/toolchains/llvm/prebuilt/windows-x86_64/sysroot -DnlsEM2037upgrade_EXPORTS  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security  -Oz -DNDEBUG  -fPIC   -o CMakeFiles\\nlsEM2037upgrade.dir\\src\\main\\cpp\\EM2037Upgrade.c.o   -c D:\\android-project\\UpgradeBadge\\app\\src\\main\\cpp\\EM2037Upgrade.c",
+  "file": "D:/android-project/UpgradeBadge/app/src/main/cpp/EM2037Upgrade.c"
+}
+]
