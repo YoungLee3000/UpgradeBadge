@@ -24,25 +24,27 @@
         <activity
             android:name=".MainActivity"
             android:configChanges="keyboardHidden|keyboard|orientation|navigation"
-            android:screenOrientation="landscape">
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.nlscan.upgradeBadge" />
+                <action android:name="android.intent.action.MAIN" />
+<!--                <category android:name="android.intent.category.LAUNCHER"/>-->
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity
             android:name=".FileBrowserActivity"
             android:configChanges="keyboardHidden|keyboard|orientation|navigation"
-            android:screenOrientation="landscape"></activity>
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".SerialConsoleActivity"
             android:configChanges="keyboardHidden|keyboard|orientation|navigation"
-            android:screenOrientation="landscape" />
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".ota.dfu.DfuActivity"
             android:configChanges="keyboardHidden|keyboard|orientation|navigation"
-            android:screenOrientation="landscape"/>
+            android:screenOrientation="portrait"/>
 
         <service
             android:name=".ota.dfu.DfuService"

@@ -21,15 +21,13 @@
 
 package com.nlscan.upgradebadge;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.IBinder;
 import android.os.Message;
 import android.os.RemoteException;
 import android.os.SystemClock;
@@ -37,17 +35,21 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.newland.core.Native;
+import com.nlscan.blecommservice.IBleInterface;
 import com.nlscan.blecommservice.IScanConfigCallback;
+import com.nlscan.upgradebadge.driver.BleSerialDriver;
 import com.nlscan.upgradebadge.driver.BleSerialPort;
 import com.nlscan.upgradebadge.util.HexDump;
 
-import androidx.appcompat.app.AppCompatActivity;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  *
@@ -58,7 +60,7 @@ public class SerialConsoleActivity extends AppCompatActivity implements Handler.
     private final String TAG = SerialConsoleActivity.class.getSimpleName();
 
 
-    private static BleSerialPort sPort = null;
+    private BleSerialPort sPort = null;
 
     private TextView mTitleTextView;
     private TextView mDumpTextView;
@@ -68,6 +70,11 @@ public class SerialConsoleActivity extends AppCompatActivity implements Handler.
     private Native mNative = null;
     private static String mstrFilePath = null;
     private SimpleDateFormat mSimpleDateFormat;
+
+
+    //绑定服务
+    private BleServiceConnection mConnection = null;
+    private IBleInterface mBleInterface;
 
     private String GetRevData(int nTimeOut)
     {
@@ -90,34 +97,87 @@ public class SerialConsoleActivity extends AppCompatActivity implements Handler.
         return null;
     }
 
+
+
+    private class  BleServiceConnection implements ServiceConnection {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            Log.i("TAG", "onServiceConnected");
+            mBleInterface = IBleInterface.Stub.asInterface(service);
+
+
+            sPort = new BleSerialDriver(mBleInterface);
+
+
+            UpgradeThread upgradeThread = new UpgradeThread(mHandler, mstrFilePath);
+            upgradeThread.start();
+
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            mBleInterface = null;
+        }
+    }
+
+
+    //绑定服务
+    private void bindBleService(){
+        Intent service = new Intent("android.nlscan.intent.action.START_BLE_SERVICE");
+        service.setPackage("com.nlscan.blecommservice");
+        mConnection = new BleServiceConnection();
+        bindService(service, mConnection, Context.BIND_AUTO_CREATE);
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(TAG, " onCreate");
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
+
+
+
+
+
+
         setContentView(R.layout.serial_console);
         //mTitleTextView = (TextView) findViewById(R.id.demoTitle);
         mDumpTextView = findViewById(R.id.consoleText);
         mScrollView = findViewById(R.id.demoScroller);
-        
-        //Button bt = (Button)findViewById(R.id.btnUpgrade);
-        //bt.setOnClickListener(btnUpgradeonClick);
-        
+
+
+
         mHandler = new Handler(this);
         
         mNative = new Native(this, this);
 
         //mNative.SetFrameSize(getIntent().getIntExtra("FrameSize",230));
         mDestroy = false;
-        mHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                UpgradeThread upgradeThread = new UpgradeThread(mHandler, mstrFilePath);
-                upgradeThread.start();
-            }
-        },300);
+//        mHandler.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//
+//            }
+//        },300);
         mSimpleDateFormat = new SimpleDateFormat("mm:ss");
+
+
+
+        bindBleService();
+
+
+        
+        //Button bt = (Button)findViewById(R.id.btnUpgrade);
+        //bt.setOnClickListener(btnUpgradeonClick);
+        
+
+    }
+
+
+    //开始升级
+    private void startUpdate(){
+
     }
 
 
@@ -248,7 +308,7 @@ public class SerialConsoleActivity extends AppCompatActivity implements Handler.
                     ShowMsg(MSG_TYPE.RCV_DATA, readbuf);
                 }
             }
-            //Log.i(TAG, " readbuf : [" + (readbuf != null) + "]");
+            Log.i(TAG, " readbuf : [" + (readbuf != null) + "]");
 
             return -4;
         }
@@ -340,6 +400,7 @@ public class SerialConsoleActivity extends AppCompatActivity implements Handler.
             }
 
             //----------------Step 4: upgrade 4 Type Pack(EM2037 only include boot and kernel) ----------------
+            Log.d(TAG,"begin step 4");
             int[] nUpgradeTypeList = {
                     Native.UPGRADE_TYPE_BOOT,
                     Native.UPGRADE_TYPE_KERNEL,
@@ -454,6 +515,7 @@ public class SerialConsoleActivity extends AppCompatActivity implements Handler.
                         nSendDataRet = SendDataAndReceive(sendbuf, hopeRcvData);
                     } while ((nSendDataRet != 0) && (--nTryTtime) > 0);
                     if (nSendDataRet != 0) {
+                        Log.d(TAG,"SendDataAndReceive err");
                         ShowMsg(MSG_TYPE.SHOW, "SendDataAndReceive err:" + nSendDataRet);
                         bNeedBreak = true;
                         break;
@@ -608,7 +670,7 @@ public class SerialConsoleActivity extends AppCompatActivity implements Handler.
      * @param context
      */
     static void show(Context context, BleSerialPort port, String strFilePath) {
-        sPort = port;
+//        sPort = port;
         mstrFilePath = strFilePath;
         final Intent intent = new Intent(context, SerialConsoleActivity.class);
         //intent.putExtra("FrameSize",frameSize>128 ?frameSize:128);
@@ -618,6 +680,8 @@ public class SerialConsoleActivity extends AppCompatActivity implements Handler.
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if(mConnection!=null)
+            unbindService(mConnection);
         Log.d(TAG, " onDestroy");
         mDestroy = true;
     }

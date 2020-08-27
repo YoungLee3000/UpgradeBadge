@@ -1,28 +1,20 @@
 <resources>
     <string name="app_name">工牌升级</string>
-
     <string name="upgrade_tips">提示：为避免工牌升级中由于电量不足导致升级工牌失败，请检查当前工牌电量是否大于50%或处于充电中。</string>
-
     <string name="SensorBrowererror">存储卡为空！</string>
     <string name="SensorUpgradeFileText">升级文件：</string>
-
     <string name="app_title">工牌升级</string>
-
     <string name="SensorUpgrade">开始升级</string>
-
     <string name="Import_file_succeed">导入文件成功</string>
-
     <string name="upgrading_msg">     ...更新中...</string>
-
     <string name="upgrade_success">\n============================\n======== 升级工牌成功 ========\n============================</string>
-
     <string name="upgrade_succeed_exit">升级工牌成功</string>
-
     <string name="upgrade_fail">升级失败 !!!</string>
-
     <string name="check_nextpack">当前升级包已升级成功，检查下一个升级包</string>
-
     <string name="wait_for_complete">正在升级中，请不要关闭，等待升级完成！！！ </string>
+
+
+
 
     <string name="dfu_action_upload">UPLOAD</string>
     <string name="dfu_action_upload_cancel">取消</string>

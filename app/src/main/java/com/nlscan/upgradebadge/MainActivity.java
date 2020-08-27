@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.newland.core.Native;
 import com.nlscan.blecommservice.IBleInterface;
@@ -46,6 +47,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Native mNative = null;
     private String mBTCpuVersion;
 
+    private static final String TAG = "BleUpdate";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +66,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         selectFile.setOnClickListener(this);
 
+
+
         Intent service = new Intent("android.nlscan.intent.action.START_BLE_SERVICE");
         service.setPackage("com.nlscan.blecommservice");
         mConnection = new BleServiceConnection();
@@ -73,6 +78,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         requestPermission();
         mNative = new Native(this, this);
+
+
+
+        mIsConnected = true;
+
+//        getCurrentBTVersion();
+
+        showUpgradeButton();
+
+
+
     }
 
     private void requestPermission(){
@@ -118,9 +134,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         public void onServiceConnected(ComponentName name, IBinder service) {
             Log.i("TAG", "onServiceConnected");
             mBleInterface = IBleInterface.Stub.asInterface(service);
-            getCurrentBTVersion();
 
+            getCurrentBTVersion();
             mPort = new BleSerialDriver(mBleInterface);
+
+
+            Toast.makeText(MainActivity.this,"连接服务成功",Toast.LENGTH_SHORT).show();
             showUpgradeButton();
         }
 
@@ -131,6 +150,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void getCurrentBTVersion(){
+
         if (mBleInterface == null)return;
         mHandler.removeMessages(0);
         mHandler.removeMessages(1);
@@ -145,6 +165,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (mBleInterface != null){
                 try {
                     if (msg.what == 0){
+                        Log.d(TAG,"query the version ");
                         mBleInterface.setScanConfig(iScanConfigCallback,"@QRYFWV;QRYBFW");//CUP版本号
                     }
                 } catch (RemoteException e) {

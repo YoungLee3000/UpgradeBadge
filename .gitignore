@@ -7,4 +7,7 @@
 .DS_Store
 /build
 /captures
+app/.cxx/cmake
+app/release
 .externalNativeBuild
+*.log
