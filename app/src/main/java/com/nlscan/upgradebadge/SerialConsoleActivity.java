@@ -362,7 +362,7 @@ public class SerialConsoleActivity extends AppCompatActivity implements Handler.
             }
 
             //if (!strDevNameFromImportFile.equals("EM2037"))
-            if (strDevNameFromImportFile.equals("Badge") || strDevNameFromImportFile.equals("BADGE")) {
+            if (strDevNameFromImportFile.equals("Badge") || strDevNameFromImportFile.equals("BADGE") || strDevNameFromImportFile.equals("BU10")) {
                 //ShowMsg(MSG_TYPE.SHOW, "Dev Name From Import File is:" + strDevNameFromImportFile);
             } else {
                 ShowMsg(MSG_TYPE.SHOW, "Dev Name From Import File is other:" + strDevNameFromImportFile);

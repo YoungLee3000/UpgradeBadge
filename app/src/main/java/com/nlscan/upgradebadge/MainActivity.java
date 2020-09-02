@@ -1,11 +1,15 @@
 package com.nlscan.upgradebadge;
 
 import android.Manifest;
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
+import android.drm.DrmStore;
+import android.graphics.Color;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
@@ -33,7 +37,7 @@ import androidx.core.app.ActivityCompat;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, ConnectStatusChangeListener {
 
-    private TextView mUpgradeFileName, mUpgradeFileInfo;
+    private TextView mUpgradeFileName, mUpgradeFileInfo,tvLevel;
     private String mFilePath;
 
     private ProgressBar mProgressBar;
@@ -47,6 +51,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Native mNative = null;
     private String mBTCpuVersion;
 
+    //电池电量广播
+    private static final String ACTION_BATTERY_CHANGE = "nlscan.action.BG_BATTERY_CHANGED";
+    private BroadcastReceiver mBatteryReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            final String action = intent.getAction();
+            if (ACTION_BATTERY_CHANGE.equals(action)){
+                int level = intent.getIntExtra("level",0);
+                if (level != 0){
+                    updateCharge(level);
+                }
+            }
+        }
+    };
+
     private static final String TAG = "BleUpdate";
 
     @Override
@@ -56,6 +75,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         mUpgradeFileName = findViewById(R.id.upgrade_file_path);
         mUpgradeFileInfo = findViewById(R.id.upgrade_file_info);
+        tvLevel = findViewById(R.id.tv_level);
         mProgressBar = findViewById(R.id.progressBar);
         mBluetoothState = findViewById(R.id.blue_state);
         mBTCpuVer = findViewById(R.id.cpu_ver);
@@ -91,6 +111,51 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+
+
+    //更新电量显示
+    private void updateCharge(int level){
+        tvLevel.setText(level+"%");
+        if (level < 50){
+            tvLevel.setTextColor(Color.RED);
+        }
+        else{
+            tvLevel.setTextColor(Color.GREEN);
+        }
+    }
+
+    //注册广播
+    private void register(){
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(ACTION_BATTERY_CHANGE);
+        registerReceiver(mBatteryReceiver,intentFilter);
+    }
+
+    //注销广播
+    private void unRegister(){
+        try {
+            unregisterReceiver(mBatteryReceiver);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        unRegister();
+    }
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        register();
+    }
+
+
+
+
     private void requestPermission(){
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},0);
@@ -109,6 +174,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onResume() {
         super.onResume();
     }
+
+
+
 
     private IBleInterface mBleInterface;
 
