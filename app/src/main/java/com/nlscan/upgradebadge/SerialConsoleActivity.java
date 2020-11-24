@@ -79,15 +79,15 @@ public class SerialConsoleActivity extends AppCompatActivity implements Handler.
     private String GetRevData(int nTimeOut)
     {
         Log.d(TAG, " GetRevData:   start ... "+nTimeOut);
-        if (nTimeOut < 10)
+        if (nTimeOut < 100)
         {
-            nTimeOut = 10;
+            nTimeOut = 100;
         }
         int nTimeAll = 0;
         while (nTimeAll < nTimeOut)
         {
-            SystemClock.sleep(1);
-            nTimeAll += 1;
+            SystemClock.sleep(10);
+            nTimeAll += 10;
             if (mRevData != null){
                 Log.d(TAG, " GetRevData:  "+ mRevData+"  use time:  "+nTimeAll);
                 return mRevData;
@@ -306,6 +306,7 @@ public class SerialConsoleActivity extends AppCompatActivity implements Handler.
                     return 0;
                 } else {
                     ShowMsg(MSG_TYPE.RCV_DATA, readbuf);
+//                    return 0;
                 }
             }
             Log.i(TAG, " readbuf : [" + (readbuf != null) + "]");
@@ -362,7 +363,9 @@ public class SerialConsoleActivity extends AppCompatActivity implements Handler.
             }
 
             //if (!strDevNameFromImportFile.equals("EM2037"))
-            if (strDevNameFromImportFile.equals("Badge") || strDevNameFromImportFile.equals("BADGE") || strDevNameFromImportFile.equals("BU10")) {
+            if (strDevNameFromImportFile.equals("Badge") || strDevNameFromImportFile.equals("BADGE") ||
+                    strDevNameFromImportFile.equals("BU10")  ||
+                    strDevNameFromImportFile.equals("BU20")) {
                 //ShowMsg(MSG_TYPE.SHOW, "Dev Name From Import File is:" + strDevNameFromImportFile);
             } else {
                 ShowMsg(MSG_TYPE.SHOW, "Dev Name From Import File is other:" + strDevNameFromImportFile);
@@ -509,6 +512,7 @@ public class SerialConsoleActivity extends AppCompatActivity implements Handler.
                         bNeedBreak = true;
                         break;
                     }
+                    Log.d(TAG,"the send buf is " + HexDump.toHexString(sendbuf));
                     String hopeRcvData = "0205000130B4FE55A2";
                     nTryTtime = 10;
                     do {
@@ -544,13 +548,15 @@ public class SerialConsoleActivity extends AppCompatActivity implements Handler.
                         startCurrentUpgradePackTime = System.currentTimeMillis();
                     }
                     byte[] sendbuf = mNative.GetPackData(nUpgradeTypeList[iUpgradeType], iDataIdx);
-                    Log.d(TAG, " GetPackData index = " + (iDataIdx + 1) + "/" + pDataPackCnt + " sendbuf: " + sendbuf + " len: " + (sendbuf != null ? sendbuf.length : 0));
+
                     if (null == sendbuf) {
                         ShowMsg(MSG_TYPE.SHOW, "GetPackData is null");
                         bNeedBreak = true;
                         break;
                     }
 
+                    Log.d(TAG, " GetPackData index = " + (iDataIdx + 1) + "/" + pDataPackCnt + " the send buf: " + HexDump.toHexString(sendbuf) +
+                            " len: " + (sendbuf != null ? sendbuf.length : 0));
                     String hopeRcvData = "2A";
                     String hopeRcvDataLastPack = "2A";
                     if ((iDataIdx+1)%4 != 0 && iDataIdx != (pDataPackCnt - 1)){

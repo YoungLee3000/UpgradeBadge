@@ -42,6 +42,7 @@ public class BleSerialDriver implements BleSerialPort {
 
     protected IBleInterface mInterface = null;
 
+
     /** Internal write buffer.  Guarded by {@link #mWriteBufferLock}. */
     protected byte[] mWriteBuffer;
 
@@ -72,7 +73,7 @@ public class BleSerialDriver implements BleSerialPort {
     public int write(byte[] src, int timeoutMillis, IScanConfigCallback callback) throws IOException {
         Log.i("BleSerialDriver","srcLen: "+src.length+" write: "+HexDump.toHexString(src));
         int offset = 0;
-        int count = 30;
+        int count = 50;
         while (offset < src.length && count >= 0) {
             int writeLength;
             int amtWritten = 0;

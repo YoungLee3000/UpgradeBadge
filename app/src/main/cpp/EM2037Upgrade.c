@@ -542,7 +542,7 @@ JNIEXPORT jbyteArray JNICALL Java_com_newland_core_Native_GetPackCmd
 		return NULL;
 	}
 	unsigned char lvHeadBuf[32];
-	unsigned char lvPackCmdBuf[64];
+	 char lvPackCmdBuf[64];
 	memset(lvHeadBuf, 0, sizeof(lvHeadBuf));
 
 	TuIMGPack_All * pPack_All_Info = (TuIMGPack_All *)&m_lvfilebuf[m_nFilelen-sizeof(TuIMGPack_All)];
@@ -564,19 +564,19 @@ JNIEXPORT jbyteArray JNICALL Java_com_newland_core_Native_GetPackCmd
 		//"!FileType:kern"
 			if (UPGRADE_TYPE_BOOT == nUpgradeType)
 			{
-				sprintf(lvHeadBuf, "!FileType:boot");
+				sprintf(lvHeadBuf,"%s", "!FileType:boot");
 			}
 			else if (UPGRADE_TYPE_KERNEL == nUpgradeType)
 			{
-				sprintf(lvHeadBuf, "!FileType:kern");
+				sprintf(lvHeadBuf,"%s", "!FileType:kern");
 			}
 			else if (UPGRADE_TYPE_FLASH == nUpgradeType)
 			{
-				sprintf(lvHeadBuf, "!FileType:flah:9999");
+				sprintf(lvHeadBuf, "%s","!FileType:flah:9999");
 			}
 			else if (UPGRADE_TYPE_APPL == nUpgradeType)
 			{
-				sprintf(lvHeadBuf, "!FileType:appl");
+				sprintf(lvHeadBuf, "%s","!FileType:appl");
 			}
 			break;
 		case 4:
