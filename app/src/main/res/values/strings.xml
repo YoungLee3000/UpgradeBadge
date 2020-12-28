@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Upgrade Badge</string>
 
-    <string name="upgrade_tips">提示：为避免工牌升级中由于电量不足导致升级工牌失败，请检查当前工牌电量是否大于50%或处于充电中。</string>
+    <string name="upgrade_tips">提示：为避免升级中由于电量不足导致升级失败，请检查当前读卡器电量是否大于50%或处于充电中。</string>
     <string name="app_title">BLE Upgrade Example</string>
     <string name="SensorUpgrade">Start Upgrade</string>
     <string name="SensorBrowererror">the SDCard is empty！</string>

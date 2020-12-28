@@ -6,8 +6,8 @@ android {
         applicationId "com.nlscan.upgradebadge"
         minSdkVersion 23
         targetSdkVersion 28
-        versionCode 7
-        versionName "1.1.05"
+        versionCode 8
+        versionName "1.1.06"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         externalNativeBuild {
